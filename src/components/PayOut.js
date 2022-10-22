@@ -10,12 +10,12 @@ const PayOut = () => {
   const [countries, setCountries] = useState([]);
   const [editing, setEditing] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [receivers, setReceivers] = useState([]);
   const [receiver, setReceiver] = useState({
     countryToSend: "",
     phoneNumber: "",
     valueInUSD: "",
   });
-  const [receivers, setReceivers] = useState([]);
 
   let validated = false;
   let multipleUsers = receivers.length;
@@ -65,7 +65,7 @@ const PayOut = () => {
       console.log("error");
       seterrorMsg("Please input all details");
     } else {
-      setLoading(true)
+      setLoading(true);
       //copy the first digit
       let Phone = receiver.phoneNumber;
       let firstDigit = Phone.slice(0, 1);
@@ -82,15 +82,14 @@ const PayOut = () => {
         Phone = "+" + Phone.replace(/\D/g, "");
         validated = true;
       } else {
-        setLoading(false)
+        setLoading(false);
         seterrorMsg("make sure your phone number follows the correct format");
       }
     }
   };
 
-
   const sendAirtime = () => {
-    setLoading(true)
+    setLoading(true);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -112,7 +111,7 @@ const PayOut = () => {
         axios(config)
           .then(function (response) {
             // console.log(JSON.stringify(response.data));
-            setLoading(false)
+            setLoading(false);
             setReceivers([]);
             Swal.fire("Sent!", "Airtime paid out successfully.", "success");
             setReceiver({
@@ -121,15 +120,14 @@ const PayOut = () => {
               valueInUSD: receiver.valueInUSD,
             });
             validated = false;
-            
           })
           .catch(function (error) {
-            setLoading(false)
+            setLoading(false);
             seterrorMsg(error.response.data.error);
             console.log(error);
           });
-      }else{
-        setLoading(false)
+      } else {
+        setLoading(false);
       }
     });
   };
@@ -158,24 +156,22 @@ const PayOut = () => {
 
     await validateFormInput();
 
-    const id = receiver.phoneNumber
+    const id = receiver.phoneNumber;
 
     //find duplicate entry
     const item = receivers.find((item) => item.phoneNumber === id);
 
     if (validated && item) {
-
-      seterrorMsg("item already exist, please update instead")
-      setLoading(false)
-   
-    } else if(validated && !item){
+      seterrorMsg("item already exist, please update instead");
+      setLoading(false);
+    } else if (validated && !item) {
       setReceivers([...receivers, receiver]);
       setReceiver({
-        countryToSend:receiver.countryToSend,
+        countryToSend: receiver.countryToSend,
         phoneNumber: "",
         valueInUSD: receiver.valueInUSD,
       });
-      setLoading(false)
+      setLoading(false);
       validated = false;
     }
   };
@@ -197,7 +193,7 @@ const PayOut = () => {
       setReceivers(receiversCopy);
 
       Swal.fire("Updated!", "Details updated successfully.", "success");
-      setLoading(false)
+      setLoading(false);
       setEditing(false);
       setReceiver({
         countryToSend: receiver.countryToSend,
@@ -220,7 +216,6 @@ const PayOut = () => {
       <h1>Payout Chimoney as Airtime</h1>
 
       <form>
-        
         <div>
           <p>Country</p>
           <select
@@ -269,14 +264,28 @@ const PayOut = () => {
           <button
             type="submit"
             onClick={handleSubmit}
-            style={{ display: (multipleUsers !== 0 && !editing) ? "none" : "inline" }}
+            style={{
+              display: multipleUsers !== 0 && !editing ? "none" : "inline",
+            }}
           >
             {editing ? "Update" : "Payout Airtime"}
           </button>
         </div>
 
-      {(errorMsg)? <div className="error-container"><p>{errorMsg}</p></div> : ""}
-        {loading ? <div className="error-container"><p className="loading">Loading...</p></div> : ""}
+        {errorMsg ? (
+          <div className="error-container">
+            <p>{errorMsg}</p>
+          </div>
+        ) : (
+          ""
+        )}
+        {loading ? (
+          <div className="error-container">
+            <p className="loading">Loading...</p>
+          </div>
+        ) : (
+          ""
+        )}
       </form>
 
       {/* table */}
@@ -323,11 +332,11 @@ const PayOut = () => {
 
           {/* final submission */}
 
-         <div className="button-container">
-         <button type="submit" onClick={sendAirtime} className="last-btn">
-            Payout Airtime
-          </button>
-         </div>
+          <div className="button-container">
+            <button type="submit" onClick={sendAirtime} className="last-btn">
+              Payout Airtime
+            </button>
+          </div>
         </div>
       ) : (
         ""
