@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const FormContainer = styled.div`
   width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,7 +22,7 @@ export const FormContainer = styled.div`
   form {
     padding: 1rem;
     margin: 0 auto;
-    width: 50vw;
+    width: 40vw;
     p {
       font-size: 1.2rem;
       margin-bottom: 0.3rem;
