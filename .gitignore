@@ -10,7 +10,7 @@
 
 # production
 /build
-# /src/SecretKeys.js
+/src/SecretKeys.js
 
 
 # misc
